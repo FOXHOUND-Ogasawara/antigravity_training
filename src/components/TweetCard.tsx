@@ -1,14 +1,15 @@
-import React from 'react';
 import { Card, CardContent, Typography, Box, Avatar } from '@mui/material';
 
 interface TweetCardProps {
     title: string;
     date: string;
     url: string;
-    isPosted?: boolean; // Style difference for already posted vs preview
+    isPosted?: boolean;
 }
 
-const TweetCard: React.FC<TweetCardProps> = ({ title, date, url, isPosted = false }) => {
+const TweetCard = (props: TweetCardProps) => {
+    const { title, date, url } = props;
+
     return (
         <Card sx={{
             maxWidth: 600,

@@ -5,7 +5,6 @@ import {
     Container,
     createTheme,
     CssBaseline,
-    Grid,
     ThemeProvider,
     Toolbar,
     Typography,
@@ -152,8 +151,9 @@ function App() {
             } else {
                 throw new Error(result.error || 'Failed to post');
             }
-        } catch (err: any) {
-            setPostResult({ success: false, message: `投稿失敗: ${err.message}` });
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            setPostResult({ success: false, message: `投稿失敗: ${errorMessage}` });
         } finally {
             setPosting(false);
         }
@@ -203,15 +203,15 @@ function App() {
                                 <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
                                     🚀 最新ニュース自動投稿 (プレビュー)
                                 </Typography>
-                                <Grid container spacing={4} alignItems="center">
-                                    <Grid item xs={12} md={7}>
+                                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: 4 }}>
+                                    <Box sx={{ width: { xs: '100%', md: '60%' } }}>
                                         <TweetCard
                                             title={latestNews.title}
                                             date={new Date(latestNews.pubDate).toLocaleDateString()}
                                             url={latestNews.link}
                                         />
-                                    </Grid>
-                                    <Grid item xs={12} md={5} sx={{ textAlign: 'center' }}>
+                                    </Box>
+                                    <Box sx={{ width: { xs: '100%', md: '40%' }, textAlign: 'center' }}>
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -234,8 +234,8 @@ function App() {
                                         <Typography variant="caption" display="block" sx={{ mt: 1, color: '#666' }}>
                                             ※クリックすると即座に投稿されます
                                         </Typography>
-                                    </Grid>
-                                </Grid>
+                                    </Box>
+                                </Box>
                             </Box>
                         )}
 
@@ -250,13 +250,13 @@ function App() {
                         )}
 
                         {!loading && !error && (
-                            <Grid container spacing={3}>
+                            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 3 }}>
                                 {news.map((item, index) => (
-                                    <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                                    <Box key={index}>
                                         <NewsCard item={item} />
-                                    </Grid>
+                                    </Box>
                                 ))}
-                            </Grid>
+                            </Box>
                         )}
                     </Container>
                 </Box>

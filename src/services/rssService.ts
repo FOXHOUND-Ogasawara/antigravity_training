@@ -7,10 +7,6 @@ export interface NewsItem {
 }
 
 export const fetchNews = async (query: string): Promise<NewsItem[]> => {
-  const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(
-    query
-  )}&hl=ja&gl=JP&ceid=JP:ja`;
-
   // Use the local proxy
   const proxyUrl = `/rss/search?q=${encodeURIComponent(
     query
